@@ -11,6 +11,10 @@ from app.models import Movie, db, Review
 reviews = Blueprint('reviews', __name__)
 
 @reviews.route('/', methods=['GET'])
+def showreviews():
+   return render_template('reviews.html')
+
+@reviews.route('/wiri', methods=['GET'])
 def showallreviews():
     reviewresults = []
     reviewtitles = []
@@ -59,3 +63,5 @@ def handle_fomdata():
             db.session.add(nreview)
             db.session.commit()       
         return render_template('review.html')
+
+        

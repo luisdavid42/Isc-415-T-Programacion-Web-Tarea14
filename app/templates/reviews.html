@@ -25,15 +25,11 @@
   </body>
 
   <script>
-    var currentName="";
-    var currentPage=0;
     var results=0;
-    var pages=0;
-    var get = function (movieName,pageNum) {
-      var api_key= "492c7fa7d569781eb1e66f5aaa4a834f";
-      var url = "https://api.themoviedb.org/3/search/movie" + "?api_key=" + api_key + "&query=" + movieName + "&page=" + pageNum;
+
+    var get = function () {
+      var url = "http://localhost:5000/movies/";
       var xhr = new XMLHttpRequest();
-      currentPage=pageNum;
       xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText);
@@ -43,14 +39,12 @@
       xhr.open("GET", url);
       xhr.send();
       function showResults(response) {
-        results = response.total_results;
-        pages = response.total_pages;
+        results = response.length;
         var resultsElement = document.getElementById('resultsQuantity');
         var pagesElement = document.getElementById('pagesQuantity');
         resultsElement.innerHTML = "Results: " + results;
         pagesElement.innerHTML = "Pages: " + pages;
-        var currentPageElement = document.getElementById('pageTb');
-        currentPageElement.innerHTML = "Page " + currentPage + " / " + pages;
+
         // Get the container
         var container = document.getElementById('content');
         // Create list element
@@ -58,7 +52,7 @@
         list.id = 'movies';
         list.classList.add('list-group');
         // Iterate over results
-        for(var idx=0; idx<response.results.length; idx++){
+        for(var idx=0; idx<response.length; idx++){
           //Agregando el Poster
           var poster = document.createElement('img');
           if(response.results[idx].poster_path==null){
@@ -70,9 +64,6 @@
           }
           list.appendChild(poster);
           //agregando boton
-          var btnAgregar = document.createElement('button');
-          btnAgregar.innerHTML = "Agregar";
-          //falta que realmente agregue la pelicula
 
           list.appendChild(btnAgregar)
           //Agregando el Titulo
@@ -92,15 +83,11 @@
         // Add list to container
         container.appendChild(list);
       }
-      
     }
-
     
     function reset(){
       document.getElementById('content').innerHTML = "";
       results = 0;
-
-      
     }
   </script>
 </html>
