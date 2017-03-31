@@ -12,7 +12,8 @@ reviews = Blueprint('reviews', __name__)
 
 @reviews.route('/', methods=['GET'])
 def showreviews():
-   return render_template('reviews.html')
+    return render_template('reviews.html')
+
 
 @reviews.route('/wiri', methods=['GET'])
 def showallreviews():
@@ -63,5 +64,3 @@ def handle_fomdata():
             db.session.add(nreview)
             db.session.commit()       
         return render_template('review.html')
-
-        

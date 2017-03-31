@@ -3,6 +3,7 @@ from flask import request
 from flask import render_template
 from flask import jsonify
 from flask import json
+from flask import send_file
 import urllib.request
 import os
 from app.models import Movie, db
@@ -30,6 +31,13 @@ def findmoviebyName():
         return response
     else:
         return render_template('review.html'), 404
+
+@movies.route('/get_image', methods=['GET'])
+def get_image():
+    filename = request.args.get('file')
+    file = 'static/poster/' + filename
+    return send_file(file, mimetype='image/gif')
+    
 
 @movies.route('/', methods=['POST'])
 def handle_fomdata():
