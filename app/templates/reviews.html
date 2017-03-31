@@ -15,8 +15,9 @@
   <body>
       <h1>Movie Reviews</h1>
         <br>
-
+        <div id="resultsQuantity">
         </div>
+        
         
         <div id="content">
         </div>
@@ -26,9 +27,10 @@
 
   <script>
     var results=0;
+    
 
     var get = function () {
-      var url = "http://localhost:5000/movies/";
+      var url = "http://localhost:5000/reviews/wiri";
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -39,11 +41,13 @@
       xhr.open("GET", url);
       xhr.send();
       function showResults(response) {
+
+        //alert(response[0].name);
+
         results = response.length;
         var resultsElement = document.getElementById('resultsQuantity');
-        var pagesElement = document.getElementById('pagesQuantity');
         resultsElement.innerHTML = "Results: " + results;
-        pagesElement.innerHTML = "Pages: " + pages;
+
 
         // Get the container
         var container = document.getElementById('content');
@@ -55,29 +59,26 @@
         for(var idx=0; idx<response.length; idx++){
           //Agregando el Poster
           var poster = document.createElement('img');
-          if(response.results[idx].poster_path==null){
+          if(response[idx].poster_path==null){
             poster.src="http://itorrent.us/images/movie-poster.jpg"
             poster.width = "185";
           }
           else{
-            poster.src = "http://image.tmdb.org/t/p/w185//" + response.results[idx].poster_path;
+            poster.src = "http://image.tmdb.org/t/p/w185//" + response[idx].poster_path;
           }
           list.appendChild(poster);
-          //agregando boton
-
-          list.appendChild(btnAgregar)
           //Agregando el Titulo
           var title = document.createElement('li');
-          title.innerHTML = 'Title: ' + response.results[idx].original_title;
+          title.innerHTML = 'Title: ' + response[idx].name;
           list.appendChild(title);
           //Agregando la fecha de lanzamiento
           var releaseDate = document.createElement('li');
-          releaseDate.innerHTML = 'Release Date: ' + response.results[idx].release_date;
+          releaseDate.innerHTML = 'Release Date: ' + response[idx].release_date;
           list.appendChild(releaseDate);
           
           //Agregando Los Votos
           var voteAvg = document.createElement('li');
-          voteAvg.innerHTML = 'Vote Avg: ' + response.results[idx].vote_average;
+          voteAvg.innerHTML = 'Vote Avg: ' + response[idx].rating;
           list.appendChild(voteAvg);
         }
         // Add list to container
@@ -89,5 +90,7 @@
       document.getElementById('content').innerHTML = "";
       results = 0;
     }
+
+    get();
   </script>
 </html>
